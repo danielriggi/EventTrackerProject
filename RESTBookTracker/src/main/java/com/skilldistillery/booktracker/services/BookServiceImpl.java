@@ -44,6 +44,11 @@ public class BookServiceImpl implements BookService {
 		return deleted;
 
 	}
+	
+	@Override
+	public List<Book> findByTitle(String title) {
+		return bookRepo.findByTitleIgnoreCaseContaining(title);
+	}
 
 	@Override
 	public List<Book> findByLanguageName(String name) {

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.skilldistillery.booktracker.entities.Author;
 import com.skilldistillery.booktracker.entities.Book;
 import com.skilldistillery.booktracker.services.BookService;
 
@@ -95,7 +96,23 @@ public class BookController {
 		}
 		return books;
 	}
-}
+	
+	@GetMapping("books/search/title/{title}")
+	public List<Book> findByTitle(@PathVariable("title") String title,  HttpServletRequest request, HttpServletResponse response){
+		List<Book> books = bookService.findByTitle(title);
+		if (books == null) {
+			response.setStatus(404);
+		}
+		return books;
+		
+}}
+
+
+
+
+
+
+
 
 
 

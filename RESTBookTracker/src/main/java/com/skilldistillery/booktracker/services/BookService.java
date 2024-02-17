@@ -18,4 +18,6 @@ public interface BookService {
 	List<Book> findByAuthorName(String name);
 	
 	List<Book> findByPublisherName(String name);
+	
+	List<Book> findByTitle(String title); 
 }
