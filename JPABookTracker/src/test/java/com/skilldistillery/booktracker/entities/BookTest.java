@@ -2,8 +2,7 @@ package com.skilldistillery.booktracker.entities;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-
-import java.util.Locale.Category;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
@@ -44,10 +43,43 @@ class BookTest {
 	
 	
 	@Test
-	void test_Category_entity_mapping() {
+	void test_Book_entity_mapping() {
 		assertNotNull(book);
-		assertEquals("bible", book.getTitle());
+		assertEquals("0439785960", book.getIsbn());
+	}
+	
+	@Test
+	void test_Book_Author_Bidirectional_ManyToMany_relationship_mapping() {
+		assertNotNull(book.getAuthors());
+		assertTrue(book.getAuthors().size() >= 1);
+	}
+	
+	@Test
+	void test_Book_Publisher_Bidirectional_ManyToOne_relationship_mapping() {
+		assertNotNull(book.getPublisher());
+		assertEquals("Scholastic Inc.", book.getPublisher().getName());
 	}
 
+	@Test
+	void test_Book_Language_Bidirectional_ManyToOne_relationship_mapping() {
+		assertNotNull(book.getLanguage());
+		assertEquals("English", book.getLanguage().getName());
+	}
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

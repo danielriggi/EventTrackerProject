@@ -13,12 +13,54 @@ public class BookServiceImpl implements BookService {
 
 	@Autowired
 	BookRepository bookRepo;
-	
+
 	@Override
 	public List<Book> index() {
-		// TODO Auto-generated method stub
 		return bookRepo.findAll();
 	}
 
+	@Override
+	public Book findById(int id) {
+		return bookRepo.findById(id).orElse(null);
+	}
+
+	@Override
+	public Book create(Book book) {
+		Book existingBook = bookRepo.findByIsbn(book.getIsbn());
+		if (existingBook != null) {
+			return null;
+		}
+		return bookRepo.save(book);
+	}
+
+	@Override
+	public boolean delete(int id) {
+		Book book = bookRepo.findById(id).orElse(null);
+		boolean deleted = false;
+		if (book != null) {
+			bookRepo.deleteById(id);
+			deleted = true;
+		}
+		return deleted;
+
+	}
+
+	@Override
+	public List<Book> findByLanguageName(String name) {
+		return bookRepo.findByLanguage_NameIgnoreCase(name);
+	}
+
+	@Override
+	public List<Book> findByAuthorName(String name) {
+		return bookRepo.findByAuthors_NameIgnoreCaseContaining(name);
+	}
+	
+	@Override
+	public List<Book> findByPublisherName(String name) {
+		return bookRepo.findByPublisher_NameIgnoreCaseContaining(name);
+	}
+	
+	
+	
 	
 }
