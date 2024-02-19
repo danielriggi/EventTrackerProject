@@ -8,6 +8,13 @@ plugins {
 group = 'com.skilldistillery.booktracker'
 version = '0.0.1-SNAPSHOT'
 
+war {
+  // Gradle will replace the variable archivesBaseName
+  // with our app name, as defined in settings.gradle
+  archiveFileName = "${archivesBaseName}.war"
+  destinationDirectory = file("../")     // Project workspace directory
+}
+
 java {
 	sourceCompatibility = '17'
 }
@@ -28,3 +35,5 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+
