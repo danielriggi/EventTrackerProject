@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,38 +16,39 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Transient;
 
 @Entity
 public class Book {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
 	private String title;
-	
-    @Column(name = "isbn")
-    private String isbn;
 
-    @Column(name = "num_pages")
-    private int numPages;
+	@Column(name = "isbn")
+	private String isbn;
 
-    @Column(name = "publication_date")
-    private LocalDate publicationDate;
+	@Column(name = "num_pages")
+	private int numPages;
 
-    @ManyToOne
-    @JoinColumn(name = "language_id")
-    private Language language;
+	@Column(name = "publication_date")
+	private LocalDate publicationDate;
 
-    @ManyToOne
-    @JoinColumn(name = "publisher_id")
-    private Publisher publisher;
+	@ManyToOne
+	@JoinColumn(name = "language_id")
+	private Language language;
 
-    @JsonIgnore
-	@ManyToMany(mappedBy="books")
+	@ManyToOne
+	@JoinColumn(name = "publisher_id")
+	private Publisher publisher;
+
+	@JsonIgnore
+	@ManyToMany(mappedBy = "books")
 	private List<Author> authors;
-	
-	public Book () {
-		
+
+	public Book() {
+
 	}
 
 	public int getId() {
@@ -65,7 +67,6 @@ public class Book {
 		this.title = title;
 	}
 
-	
 	public String getIsbn() {
 		return isbn;
 	}
@@ -105,9 +106,7 @@ public class Book {
 	public void setPublisher(Publisher publisher) {
 		this.publisher = publisher;
 	}
-	
-	
-	
+
 	public List<Author> getAuthors() {
 		return authors;
 	}
@@ -117,20 +116,30 @@ public class Book {
 	}
 
 	public void addAuthor(Author author) {
-		if(authors == null) {authors = new ArrayList<>();}
-		if(!authors.contains(author)) {
+		if (authors == null) {
+			authors = new ArrayList<>();
+		}
+		if (!authors.contains(author)) {
 			authors.add(author);
 			author.addBook(this);
 		}
 	}
-	
+
 	public void removeAuthor(Author author) {
-		if (authors != null && authors.contains(author) ) {
+		if (authors != null && authors.contains(author)) {
 			authors.remove(author);
 			author.removeBook(this);
 		}
 	}
-	
+
+	@JsonProperty("authorsList")
+	public List<String> authorsList() {
+		List<String> authorsList = new ArrayList();
+		for (Author author : authors) {
+			authorsList.add(author.getName());
+		}
+		return authorsList;
+	}
 
 	@Override
 	public int hashCode() {
@@ -148,16 +157,11 @@ public class Book {
 		Book other = (Book) obj;
 		return id == other.id;
 	}
-	
-	
 
 	@Override
 	public String toString() {
 		return "Book [id=" + id + ", title=" + title + ", isbn=" + isbn + ", numPages=" + numPages
 				+ ", publicationDate=" + publicationDate + ", publisher=" + publisher + "]";
 	}
-	
-	
-	
-	
+
 }

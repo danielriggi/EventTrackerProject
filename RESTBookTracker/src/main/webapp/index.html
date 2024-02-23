@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>REST Book Database</title>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+
+	<div class="container mt-5">
+		<h1 class="text-center big-header display-2">Book and Author
+			Database</h1>
+		<!-- Add your big header here -->
+		<!-- Accordion  -->
+		<div id="accordion">
+			<!-- First collapsible item -->
+			<div class="card">
+				<div class="card-header" id="headingOne">
+					<h5 class="mb-0">
+						<button class="btn btn-link" data-toggle="collapse"
+							data-target="#collapseOne" aria-expanded="false"
+							aria-controls="collapseOne">Search By Title</button>
+					</h5>
+				</div>
+				<div id="collapseOne" name="collapseOne" class="collapse"
+					aria-labelledby="headingOne" data-parent="#accordion">
+					<div class="card-body">
+						<!-- Form for Collapsible Content 1 -->
+						<form name="bookTitleForm">
+							<div class="form-group">
+								<input type="text" class="form-control" name="bookTitle">
+								<button class="btn btn-primary" name="lookup">Search</button>
+							</div>
+						</form>
+
+					</div>
+				</div>
+			</div>
+
+			<!-- Second collapsible item -->
+			<div class="card">
+				<div class="card-header" id="headingTwo">
+					<h5 class="mb-0">
+						<button class="btn btn-link" data-toggle="collapse"
+							data-target="#collapseTwo" aria-expanded="false"
+							aria-controls="collapseTwo">Search By Author</button>
+					</h5>
+				</div>
+				<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
+					data-parent="#accordion">
+					<div class="card-body">
+						<!-- Form for Collapsible Content 2 -->
+						<form name="bookAuthorForm">
+							<div class="form-group">
+								<input type="text" class="form-control" name="bookAuthor">
+								<button class="btn btn-primary" name="lookup">Search</button>
+							</div>
+						</form>
+
+					</div>
+				</div>
+			</div>
+
+
+			<!-- Third collapsible item -->
+			<div class="card">
+				<div class="card-header" id="headingThree">
+					<h5 class="mb-0">
+						<button class="btn btn-link" data-toggle="collapse"
+							data-target="#collapseThree" aria-expanded="false"
+							aria-controls="collapseThree">Search By Publisher</button>
+					</h5>
+				</div>
+				<div id="collapseThree" class="collapse" aria-labelledby="headingThree"
+					data-parent="#accordion">
+					<div class="card-body">
+						<!-- Form for Collapsible Content 3 -->
+						<form name="bookPublisherForm">
+							<div class="form-group">
+								<input type="text" class="form-control" name="bookPublisher">
+								<button class="btn btn-primary" name="lookup">Search</button>
+							</div>
+						</form>
+
+					</div>
+				</div>
+			</div>
+
+			<!-- Fourth collapsible item -->
+			<div class="card">
+				<div class="card-header" id="headingFour">
+					<h5 class="mb-0">
+						<button class="btn btn-link" data-toggle="collapse"
+							data-target="#collapseFour" aria-expanded="false"
+							aria-controls="collapseFour">Search By Language</button>
+					</h5>
+				</div>
+				<div id="collapseFour" class="collapse" aria-labelledby="headingFour"
+					data-parent="#accordion">
+					<div class="card-body">
+						<!-- Form for Collapsible Content 4 -->
+						<form name="bookLanguageForm">
+							<div class="form-group">
+								<input type="text" class="form-control" name="bookLanguage">
+								<button class="btn btn-primary" name="lookup">Search</button>
+							</div>
+						</form>
+
+					</div>
+				</div>
+			</div>
+
+
+		</div>
+	</div>
+
+	<script type="text/javascript" src="js/bookFunctions.js"></script>
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,6 +1,8 @@
 package com.skilldistillery.booktracker.controllers;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.skilldistillery.booktracker.entities.Author;
 import com.skilldistillery.booktracker.entities.Book;
 import com.skilldistillery.booktracker.services.BookService;
 
@@ -50,11 +51,9 @@ public class BookController {
 			return newBook;
 		}
 	}
-	
+
 	@DeleteMapping("books/{id}")
-	public void delete(@PathVariable("id") int id, 
-			HttpServletRequest request,
-			HttpServletResponse response) {
+	public void delete(@PathVariable("id") int id, HttpServletRequest request, HttpServletResponse response) {
 		try {
 			if (bookService.delete(id)) {
 				response.setStatus(204);
@@ -66,7 +65,7 @@ public class BookController {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@GetMapping("books/search/language/{name}")
 	public List<Book> findByLanguageName(@PathVariable("name") String name, HttpServletRequest request,
 			HttpServletResponse response) {
@@ -74,9 +73,9 @@ public class BookController {
 		if (books == null) {
 			response.setStatus(404);
 		}
-		return books;
+		return sortBooksByTitle(books);
 	}
-	
+
 	@GetMapping("books/search/author/{name}")
 	public List<Book> findByAuthorName(@PathVariable("name") String name, HttpServletRequest request,
 			HttpServletResponse response) {
@@ -84,9 +83,9 @@ public class BookController {
 		if (books == null) {
 			response.setStatus(404);
 		}
-		return books;
+		return sortBooksByTitle(books);
 	}
-	
+
 	@GetMapping("books/search/publisher/{name}")
 	public List<Book> findByPublisherName(@PathVariable("name") String name, HttpServletRequest request,
 			HttpServletResponse response) {
@@ -94,18 +93,39 @@ public class BookController {
 		if (books == null) {
 			response.setStatus(404);
 		}
-		return books;
+		return sortBooksByTitle(books);
 	}
-	
+
 	@GetMapping("books/search/title/{title}")
-	public List<Book> findByTitle(@PathVariable("title") String title,  HttpServletRequest request, HttpServletResponse response){
+	public List<Book> findByTitle(@PathVariable("title") String title, HttpServletRequest request,
+			HttpServletResponse response) {
 		List<Book> books = bookService.findByTitle(title);
 		if (books == null) {
 			response.setStatus(404);
 		}
-		return books;
-		
-}}
+		return sortBooksByTitle(books);
+
+	}
+
+	private List<Book> sortBooksByTitle(List<Book> books) {
+		if (books == null) {
+			return null;
+		}
+		return books.stream().sorted(Comparator.comparing(Book::getTitle)).collect(Collectors.toList());
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
