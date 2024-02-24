@@ -1,5 +1,7 @@
 package com.skilldistillery.booktracker.controllers;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.skilldistillery.booktracker.entities.Author;
-import com.skilldistillery.booktracker.entities.Book;
 import com.skilldistillery.booktracker.services.AuthorService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,9 +27,17 @@ public class AuthorController {
 	
 	@GetMapping({ "authors", "authors/" })
 	public List<Author> index() {
-		return authorService.index();
+	    List<Author> authors = authorService.index();
+	    Collections.sort(authors, Comparator.comparing(author -> {
+	        if (author.getName() == null) {
+	            return "";
+	        }
+	        return author.getName();
+	    }));
+	    return authors;
 	}
 	
+
 	@GetMapping("authors/{id}")
 	public Author findAuthorById(@PathVariable("id") int id, HttpServletRequest request, HttpServletResponse response) {
 		Author author = authorService.findById(id);

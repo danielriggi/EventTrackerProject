@@ -4,12 +4,13 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -43,7 +44,7 @@ public class Book {
 	@JoinColumn(name = "publisher_id")
 	private Publisher publisher;
 
-	@JsonIgnore
+	@JsonIgnoreProperties({"books"})
 	@ManyToMany(mappedBy = "books")
 	private List<Author> authors;
 
@@ -114,6 +115,7 @@ public class Book {
 	public void setAuthors(List<Author> authors) {
 		this.authors = authors;
 	}
+	
 
 	public void addAuthor(Author author) {
 		if (authors == null) {
@@ -132,14 +134,6 @@ public class Book {
 		}
 	}
 
-	@JsonProperty("authorsList")
-	public List<String> authorsList() {
-		List<String> authorsList = new ArrayList();
-		for (Author author : authors) {
-			authorsList.add(author.getName());
-		}
-		return authorsList;
-	}
 
 	@Override
 	public int hashCode() {

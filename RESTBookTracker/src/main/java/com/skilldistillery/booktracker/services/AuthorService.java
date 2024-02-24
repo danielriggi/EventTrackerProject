@@ -13,6 +13,8 @@ public interface AuthorService {
 	
 	List<Author> findByName(String name);
 	
+	Author findAuthorByName(String name);
+	
 	List<Author> findByBookTitle(String title);
 	
 	boolean delete(int id); 

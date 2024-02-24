@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.skilldistillery.booktracker.entities.Author;
 import com.skilldistillery.booktracker.entities.Book;
 import com.skilldistillery.booktracker.repositories.BookRepository;
 
@@ -13,6 +14,8 @@ public class BookServiceImpl implements BookService {
 
 	@Autowired
 	BookRepository bookRepo;
+	@Autowired
+	AuthorService authorService;
 
 	@Override
 	public List<Book> index() {
@@ -30,6 +33,7 @@ public class BookServiceImpl implements BookService {
 		if (existingBook != null) {
 			return null;
 		}
+			
 		return bookRepo.save(book);
 	}
 

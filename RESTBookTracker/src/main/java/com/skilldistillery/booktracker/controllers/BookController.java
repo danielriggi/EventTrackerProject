@@ -39,7 +39,7 @@ public class BookController {
 		return book;
 	}
 
-	@PostMapping("books")
+	@PostMapping({ "books", "books/" })
 	public Book create(@RequestBody Book book, HttpServletRequest request, HttpServletResponse response) {
 		Book newBook = bookService.create(book);
 		if (newBook == null) {

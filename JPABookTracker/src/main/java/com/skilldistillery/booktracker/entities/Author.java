@@ -3,6 +3,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,6 +22,7 @@ public class Author {
 
     private String name;
 
+    @JsonIgnoreProperties({"authors"})
 	@ManyToMany
 	@JoinTable(name="book_author",
 			   joinColumns=@JoinColumn(name="author_id"),
@@ -67,7 +70,6 @@ public class Author {
 			book.removeAuthor(this);
 		}
 	}
-	
 	
 
 	@Override

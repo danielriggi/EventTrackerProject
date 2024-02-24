@@ -44,6 +44,11 @@ public class AuthorServiceImpl implements AuthorService {
 		return deleted;
 
 	}
+	
+	@Override
+	public Author findAuthorByName(String name) {
+		return authorRepo.findByNameIgnoreCase(name);
+	}
 
 	@Override
 	public List<Author> findByName(String name) {
