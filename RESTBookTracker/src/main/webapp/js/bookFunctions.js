@@ -129,7 +129,6 @@ function showBooks(parentDivId, books) {
 
 	let ul = document.createElement('ul');
 	books.forEach((book, index) => {
-		console.log(book);
 		let li = document.createElement('li');
 		let titleElement = document.createElement('button');
 		titleElement.textContent = book.title;
@@ -145,6 +144,7 @@ function showBooks(parentDivId, books) {
 
 function showBook(parentDivId, book) {
 	let parentDiv = document.getElementById(parentDivId);
+	console.log(book);
 
 	if (parentDiv.children.length > 0) {
 		clearUL(parentDiv);
@@ -413,10 +413,6 @@ function createBook() {
 	};
 
 
-	console.log(bookObject);
-
-
-
 	let xhr = new XMLHttpRequest();
 	let route = '/api/books';
 	xhr.open('POST', route);
@@ -426,7 +422,7 @@ function createBook() {
 		if (xhr.readyState === 4) {
 			if (xhr.status == 200 || xhr.status == 201) {
 				let data = JSON.parse(xhr.responseText);
-				showBook("collapseSix", data);
+				showBooks("collapseSix", [data]);
 			}
 			else {
 				console.error("POST request failed.");
