@@ -4,20 +4,18 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Transient;
 
 @Entity
 public class Book {
@@ -44,8 +42,16 @@ public class Book {
 	@JoinColumn(name = "publisher_id")
 	private Publisher publisher;
 
-	@JsonIgnoreProperties({"books"})
-	@ManyToMany(mappedBy = "books")
+//	@JsonIgnoreProperties({"books"})
+//	@ManyToMany(mappedBy = "books")
+//	private List<Author> authors;
+	
+    @JsonIgnoreProperties({"books"})
+	@ManyToMany
+	@JoinTable(name="book_author",
+			   joinColumns=@JoinColumn(name="book_id"),
+			   inverseJoinColumns=@JoinColumn(name="author_id")
+	)
 	private List<Author> authors;
 
 	public Book() {
@@ -155,7 +161,7 @@ public class Book {
 	@Override
 	public String toString() {
 		return "Book [id=" + id + ", title=" + title + ", isbn=" + isbn + ", numPages=" + numPages
-				+ ", publicationDate=" + publicationDate + ", publisher=" + publisher + "]";
+				+ ", publicationDate=" + publicationDate + ", publisher=" + publisher + ", authors=" + authors + ", language=" + language +"]";
 	}
 
 }

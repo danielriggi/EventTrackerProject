@@ -6,6 +6,8 @@ window.addEventListener('load', function(e) {
 
 function init() {
 	getAllAuthors();
+	getAllLanguages();
+	getAllPublishers();
 
 	document.bookTitleForm.lookup.addEventListener('click', function(event) {
 		event.preventDefault();
@@ -44,7 +46,6 @@ function init() {
 	document.addBookForm.addBook.addEventListener('click', function(event) {
 		event.preventDefault();
 		createBook();
-
 	});
 }
 
@@ -143,7 +144,6 @@ function showBooks(parentDivId, books) {
 }
 
 function showBook(parentDivId, book) {
-	console.log(book)
 	let parentDiv = document.getElementById(parentDivId);
 
 	if (parentDiv.children.length > 0) {
@@ -193,7 +193,33 @@ function showBook(parentDivId, book) {
 	pub.style.textAlign = 'left';
 	ul.appendChild(pub);
 
+	// Add delete button
+	let deleteButton = document.createElement("button");
+	deleteButton.textContent = "Delete";
+	deleteButton.classList.add("btn", "btn-danger");
+	deleteButton.addEventListener("click", function() {
+		let deleted = deleteBook(book.id);
+		parentDiv.innerHTML = "";
+		let successMessage = document.createElement("p");
+		successMessage.textContent = "Book deleted successfully";
+		successMessage.classList.add("text-success");
+		parentDiv.appendChild(successMessage);
+	});
+	ul.appendChild(deleteButton);
+
+	// Add update button
+	let updateButton = document.createElement("button");
+	updateButton.textContent = "Update";
+	updateButton.classList.add("btn", "btn-primary");
+	updateButton.addEventListener("click", function() {
+		// Implement update logic here
+		// You can use book.id to identify the book to update
+		console.log("Update book with ID: " + book.id);
+	});
+	ul.appendChild(updateButton);
+
 	parentDiv.appendChild(ul);
+
 }
 
 function getAllAuthors() {
@@ -205,8 +231,7 @@ function getAllAuthors() {
 			if (xhr.status >= 200 && xhr.status < 300) {
 				if (xhr.responseText.length > 0) {
 					let data = JSON.parse(xhr.responseText);
-					console.log(data);
-					populateAuthorForm("authorDropdown", data);
+					populateSelectForm("authorDropdown", data);
 				}
 			}
 		}
@@ -214,14 +239,49 @@ function getAllAuthors() {
 	xhr.send()
 }
 
-function populateAuthorForm(parentDivId, authors) {
-	let selectElement = document.getElementById(parentDivId);
-	console.log(selectElement);
-	authors.forEach(author => {
-		let option = document.createElement('option');
-		option.textContent = author.name;
+function getAllLanguages() {
+	let xhr = new XMLHttpRequest();
+	let route = 'api/languages';
+	xhr.open('GET', route);
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState === 4) {
+			if (xhr.status >= 200 && xhr.status < 300) {
+				if (xhr.responseText.length > 0) {
+					let data = JSON.parse(xhr.responseText);
+					populateSelectForm("languageDropdown", data);
+				}
+			}
+		}
+	}
+	xhr.send()
+}
 
-		option.value = author.id;
+function getAllPublishers() {
+	let xhr = new XMLHttpRequest();
+	let route = 'api/publishers';
+	xhr.open('GET', route);
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState === 4) {
+			if (xhr.status >= 200 && xhr.status < 300) {
+				if (xhr.responseText.length > 0) {
+					let data = JSON.parse(xhr.responseText);
+					populateSelectForm("publisherDropdown", data);
+				}
+			}
+		}
+	}
+	xhr.send()
+}
+
+
+
+function populateSelectForm(parentDivId, datas) {
+	let selectElement = document.getElementById(parentDivId);
+	datas.forEach(data => {
+		let option = document.createElement('option');
+		option.textContent = data.name;
+
+		option.value = data.id;
 		selectElement.appendChild(option);
 	});
 }
@@ -304,6 +364,7 @@ function clearUL(parentDiv) {
 	}
 }
 
+
 function getAuthorByID(id) {
 	let xhr = new XMLHttpRequest();
 	let route = 'api/authors/' + id;
@@ -322,17 +383,22 @@ function getAuthorByID(id) {
 }
 
 function createBook() {
-
 	let title = addBookForm.title.value;
 	let author = {
 		"id": addBookForm.authorDropdown.value,
-		"name": addBookForm.authorDropdown.textContent
+		"name": addBookForm.authorDropdown.options[authorDropdown.selectedIndex].text
 	};
 	let isbn = addBookForm.isbn.value;
 	let numPages = addBookForm.numPages.value;
 	let pubDate = addBookForm.publicationDate.value;
-	let language = addBookForm.language.value.trim() === "" ? null : addBookForm.language.value.trim();
-	let publisher = addBookForm.publisher.value.trim() === "" ? null : addBookForm.publisher.value.trim();
+	let language = {
+		"id": addBookForm.languageDropdown.value,
+		"name": addBookForm.languageDropdown.options[languageDropdown.selectedIndex].text
+	};
+	let publisher = {
+		"id": addBookForm.publisherDropdown.value,
+		"name": addBookForm.publisherDropdown.options[publisherDropdown.selectedIndex].text
+	};
 
 
 	let bookObject = {
@@ -345,6 +411,9 @@ function createBook() {
 		publisher: publisher,
 		authors: [author]
 	};
+
+
+	console.log(bookObject);
 
 
 
@@ -369,6 +438,28 @@ function createBook() {
 	xhr.send(JSON.stringify(bookObject))
 }
 
+function updateBook() {
+
+}
+
+function deleteBook(bookId) {
+	let xhr = new XMLHttpRequest();
+	let route = 'api/books/' + bookId;
+	xhr.open('DELETE', route);
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState === 4) {
+			if (xhr.status >= 200 && xhr.status < 300) {
+				console.log('Book deleted successfully');
+				return true;
+			} else {
+				console.error('Error deleting book:', xhr.status);
+				return false;
+			}
+		}
+	};
+	xhr.send();
+
+}
 
 
 

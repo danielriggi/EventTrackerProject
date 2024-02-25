@@ -5,6 +5,7 @@ import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,13 +23,17 @@ public class Author {
 
     private String name;
 
+//    @JsonIgnoreProperties({"authors"})
+//	@ManyToMany
+//	@JoinTable(name="book_author",
+//			   joinColumns=@JoinColumn(name="book_id"),
+//			   inverseJoinColumns=@JoinColumn(name="author_id")
+//	)
+//	private List<Book> books;
+    
     @JsonIgnoreProperties({"authors"})
-	@ManyToMany
-	@JoinTable(name="book_author",
-			   joinColumns=@JoinColumn(name="author_id"),
-			   inverseJoinColumns=@JoinColumn(name="book_id")
-	)
-	private List<Book> books;
+    @ManyToMany(mappedBy = "authors")
+    private List<Book> books;
 
     // Getters and setters
     public Integer getId() {

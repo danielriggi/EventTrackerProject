@@ -33,7 +33,6 @@ public class BookServiceImpl implements BookService {
 		if (existingBook != null) {
 			return null;
 		}
-			
 		return bookRepo.save(book);
 	}
 
