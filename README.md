@@ -2,7 +2,7 @@
 # EventTrackerProject
 
 ## Description
-REST API to access a database with over 9,200 authors and 11,100 books. This documentation outlines the available API endpoints and their functionalities for accessing the book and author database. 
+REST API to access a database with over 9,200 authors and 11,100 books. This documentation outlines the available API endpoints and their functionalities for accessing the book and author database. A front end exists at the base url that allows easy access to select endpoints. 
 
 
 ## Base URL
