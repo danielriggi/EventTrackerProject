@@ -49,6 +49,17 @@ function init() {
 
 	});
 
+	document.addBookForm.addBook.addEventListener('click', function(event) {
+		event.preventDefault();
+		createBook();
+
+	});
+
+	document.updateBookForm.updateBookButton.addEventListener('click', function(event) {
+		event.preventDefault();
+		updateBook();
+
+	});
 }
 
 function getBooksByTitle(searchString) {
@@ -439,7 +450,10 @@ function createBook() {
 }
 
 function populateUpdateBookForm(currentBook) {
-
+	console.log("in pop update book form");
+	console.log("book id : " + currentBook.id);
+    document.updateBookForm.id.value = currentBook.id;
+    console.log(document.updateBookForm.id.value);
 	document.updateBookForm.title.value = currentBook.title;
 	document.updateBookForm.updateAuthorDropdown.value = currentBook.authors[0].id;
 	document.updateBookForm.isbn.value = currentBook.isbn;
@@ -452,17 +466,47 @@ function populateUpdateBookForm(currentBook) {
 
 }
 
-function updateBook(updatedObject) {
+function updateBook() {
+	let id = updateBookForm.id.value;
+	let title = updateBookForm.title.value;
+	let author = {
+		"id": updateBookForm.updateAuthorDropdown.value,
+		"name": updateBookForm.updateAuthorDropdown.options[updateAuthorDropdown.selectedIndex].text
+	};
+	let isbn = updateBookForm.isbn.value;
+	let numPages = updateBookForm.numPages.value;
+	let pubDate = updateBookForm.publicationDate.value;
+	let language = {
+		"id": updateBookForm.updateLanguageDropdown.value,
+		"name": updateBookForm.updateLanguageDropdown.options[updateLanguageDropdown.selectedIndex].text
+	};
+	let publisher = {
+		"id": updateBookForm.updatePublisherDropdown.value,
+		"name": updateBookForm.updatePublisherDropdown.options[updatePublisherDropdown.selectedIndex].text
+	};
+
+
+	let updatedObject = {
+		id: id,
+		title: title,
+		isbn: isbn,
+		numPages: numPages,
+		publicationDate: pubDate,
+		language: language,
+		publisher: publisher,
+		authors: [author]
+	};
+	console.log(updatedObject);
 	let xhr = new XMLHttpRequest();
-	let route = '/api/books/' + updatedObject.id; // Adjust the route according to your API
-	xhr.open('PUT', route); // Use PUT or PATCH depending on your API
+	let route = '/api/books/' + updatedObject.id;
+	xhr.open('PUT', route);
 	xhr.setRequestHeader('Content-Type', 'application/json');
 
 	xhr.onreadystatechange = function() {
 		if (xhr.readyState === 4) {
 			if (xhr.status === 200 || xhr.status === 201) {
 				console.log('Object updated successfully:', JSON.parse(xhr.responseText));
-				// You can perform further actions here, such as updating the UI
+				showBooks("collapseSeven", [updatedObject]);
 
 			} else {
 				// Handle error
