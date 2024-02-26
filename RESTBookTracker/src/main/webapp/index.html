@@ -5,6 +5,11 @@
 <title>REST Book Database</title>
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link
+	href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css"
+	rel="stylesheet" />
+
+
 </head>
 <body>
 
@@ -172,17 +177,71 @@
 							</div>
 							<div class="form-group">
 								<label for="language">Language:</label> <select
-									class="form-control" name="languageDropdown" id="languageDropdown"></select>
+									class="form-control" name="languageDropdown"
+									id="languageDropdown"></select>
 							</div>
 							<div class="form-group">
 								<label for="publisher">Publisher:</label> <select
-									class="form-control" name="publisherDropdown" id="publisherDropdown"></select>
+									class="form-control" name="publisherDropdown"
+									id="publisherDropdown"></select>
 							</div>
 
-
-
-
 							<button class="btn btn-primary" name="addBook">Add Book</button>
+						</form>
+
+					</div>
+				</div>
+			</div>
+
+
+			<!-- Seventh collapsible item -->
+			<div class="card">
+				<div class="card-header" id="headingSix">
+					<h5 class="mb-0">
+						<button class="btn btn-link" data-toggle="collapse"
+							data-target="#collapseSeven" aria-expanded="false"
+							aria-controls="collapseSeven">Update a New Book</button>
+					</h5>
+				</div>
+				<div id="collapseSeven" class="collapse"
+					aria-labelledby="headingSeven" data-parent="#accordion">
+					<div class="card-body">
+						<!-- Form for Collapsible Content 6 -->
+						<form name="updateBookForm">
+							<div class="form-group">
+								<label for="title">Title:</label> <input type="text"
+									class="form-control" name="title">
+							</div>
+							<div class="form-group">
+								<label for="author">Author:</label> <select class="form-control"
+									name="updateAuthorDropdown" id="updateAuthorDropdown">
+								</select>
+							</div>
+							<div class="form-group">
+								<label for="isbn">ISBN:</label> <input type="text"
+									class="form-control" name="isbn">
+							</div>
+							<div class="form-group">
+								<label for="numPages">Number of Pages:</label> <input
+									type="number" class="form-control" name="numPages">
+							</div>
+							<div class="form-group">
+								<label for="publicationDate">Publication Date:</label> <input
+									type="date" class="form-control" name="publicationDate">
+							</div>
+							<div class="form-group">
+								<label for="language">Language:</label> <select
+									class="form-control" name="updateLanguageDropdown"
+									id="updateLanguageDropdown"></select>
+							</div>
+							<div class="form-group">
+								<label for="publisher">Publisher:</label> <select
+									class="form-control" name="updatePublisherDropdown"
+									id="updatePublisherDropdown"></select>
+							</div>
+
+							<button class="btn btn-primary" id="updateBookButton"
+								name="updateBookButton">update Book</button>
 						</form>
 
 					</div>
@@ -193,11 +252,15 @@
 		</div>
 	</div>
 
-	<script type="text/javascript" src="js/bookFunctions.js"></script>
+
 	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 	<script
 		src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 	<script
 		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+	<script type="text/javascript" src="js/bookFunctions.js"></script>
 </body>
 </html>

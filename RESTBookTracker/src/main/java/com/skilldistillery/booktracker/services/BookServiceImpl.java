@@ -68,6 +68,15 @@ public class BookServiceImpl implements BookService {
 		return bookRepo.findByPublisher_NameIgnoreCaseContaining(name);
 	}
 	
+    @Override
+    public Book updateBook(int id, Book book) {
+        if (bookRepo.existsById(id)) {
+            book.setId(id);
+            return bookRepo.save(book);
+        }
+        return null;
+    }
+	
 	
 	
 	

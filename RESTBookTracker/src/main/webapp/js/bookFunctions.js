@@ -6,8 +6,14 @@ window.addEventListener('load', function(e) {
 
 function init() {
 	getAllAuthors();
+	$('#authorDropdown').select2({});
+	$('#updateAuthorDropdown').select2({});
 	getAllLanguages();
+	$('#languageDropdown').select2({});
+	$('#updateLanguageDropdown').select2({});
 	getAllPublishers();
+	$('#publisherDropdown').select2({});
+	$('#updatePublisherDropdown').select2({});
 
 	document.bookTitleForm.lookup.addEventListener('click', function(event) {
 		event.preventDefault();
@@ -43,10 +49,6 @@ function init() {
 
 	});
 
-	document.addBookForm.addBook.addEventListener('click', function(event) {
-		event.preventDefault();
-		createBook();
-	});
 }
 
 function getBooksByTitle(searchString) {
@@ -193,7 +195,6 @@ function showBook(parentDivId, book) {
 	pub.style.textAlign = 'left';
 	ul.appendChild(pub);
 
-	// Add delete button
 	let deleteButton = document.createElement("button");
 	deleteButton.textContent = "Delete";
 	deleteButton.classList.add("btn", "btn-danger");
@@ -207,14 +208,16 @@ function showBook(parentDivId, book) {
 	});
 	ul.appendChild(deleteButton);
 
-	// Add update button
 	let updateButton = document.createElement("button");
 	updateButton.textContent = "Update";
 	updateButton.classList.add("btn", "btn-primary");
 	updateButton.addEventListener("click", function() {
-		// Implement update logic here
-		// You can use book.id to identify the book to update
-		console.log("Update book with ID: " + book.id);
+		populateUpdateBookForm(book);
+		$('#accordion').collapse('hide');
+		$('#collapseSeven').collapse('show');
+		let updateElement = document.getElementById("collapseSeven");
+		updateElement.scrollIntoView();
+
 	});
 	ul.appendChild(updateButton);
 
@@ -232,6 +235,7 @@ function getAllAuthors() {
 				if (xhr.responseText.length > 0) {
 					let data = JSON.parse(xhr.responseText);
 					populateSelectForm("authorDropdown", data);
+					populateSelectForm("updateAuthorDropdown", data);
 				}
 			}
 		}
@@ -249,6 +253,7 @@ function getAllLanguages() {
 				if (xhr.responseText.length > 0) {
 					let data = JSON.parse(xhr.responseText);
 					populateSelectForm("languageDropdown", data);
+					populateSelectForm("updateLanguageDropdown", data);
 				}
 			}
 		}
@@ -266,14 +271,13 @@ function getAllPublishers() {
 				if (xhr.responseText.length > 0) {
 					let data = JSON.parse(xhr.responseText);
 					populateSelectForm("publisherDropdown", data);
+					populateSelectForm("updatePublisherDropdown", data);
 				}
 			}
 		}
 	}
 	xhr.send()
 }
-
-
 
 function populateSelectForm(parentDivId, datas) {
 	let selectElement = document.getElementById(parentDivId);
@@ -434,8 +438,40 @@ function createBook() {
 	xhr.send(JSON.stringify(bookObject))
 }
 
-function updateBook() {
+function populateUpdateBookForm(currentBook) {
 
+	document.updateBookForm.title.value = currentBook.title;
+	document.updateBookForm.updateAuthorDropdown.value = currentBook.authors[0].id;
+	document.updateBookForm.isbn.value = currentBook.isbn;
+	document.updateBookForm.numPages.value = currentBook.numPages;
+	document.updateBookForm.publicationDate.value = currentBook.publicationDate;
+	document.updateBookForm.updateLanguageDropdown.value = currentBook.language.id;
+	document.updateBookForm.updatePublisherDropdown.value = currentBook.publisher.id;
+
+
+
+}
+
+function updateBook(updatedObject) {
+	let xhr = new XMLHttpRequest();
+	let route = '/api/books/' + updatedObject.id; // Adjust the route according to your API
+	xhr.open('PUT', route); // Use PUT or PATCH depending on your API
+	xhr.setRequestHeader('Content-Type', 'application/json');
+
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState === 4) {
+			if (xhr.status === 200 || xhr.status === 201) {
+				console.log('Object updated successfully:', JSON.parse(xhr.responseText));
+				// You can perform further actions here, such as updating the UI
+
+			} else {
+				// Handle error
+				console.error('Failed to update object. Status:', xhr.status, 'Response:', xhr.responseText);
+			}
+		}
+	};
+
+	xhr.send(JSON.stringify(updatedObject));
 }
 
 function deleteBook(bookId) {
