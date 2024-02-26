@@ -429,7 +429,7 @@ function createBook() {
 
 
 	let xhr = new XMLHttpRequest();
-	let route = '/api/books';
+	let route = 'api/books';
 	xhr.open('POST', route);
 	xhr.setRequestHeader("Content-type", "application/json");
 

@@ -2,203 +2,45 @@
 # EventTrackerProject
 
 ## Description
-REST API to access a database with over 9,200 authors and 11,100 books. This documentation outlines the available API endpoints and their functionalities for accessing the book and author database.
+REST API to access a database with over 9,200 authors and 11,100 books. This documentation outlines the available API endpoints and their functionalities for accessing the book and author database. 
+
 
 ## Base URL
 http://52.44.132.108:8080/RESTBookTracker/
 
 ## Book Endpoints
 
-### 1. Get All Books
 
-- **URL**: `/api/books`
-- **Method**: `GET`
-- **Description**: Retrieves a list of all books in the database.
-- **Response**:
-  - Status Code: `200 OK`
-  - Body: JSON array containing book objects with details such as id, title, ISBN, number of pages, publication date, language, and publisher.
 
-### 2. Get Book by ID
-
-- **URL**: `/api/books/{id}`
-- **Method**: `GET`
-- **Description**: Retrieves a specific book by its ID.
-- **Parameters**:
-  - `{id}`: ID of the book to retrieve.
-- **Response**:
-  - Status Code: `200 OK`
-  - Body: JSON object containing details of the requested book.
-  - Status Code: `404 Not Found` if the book with the specified ID does not exist.
-
-### 3. Add New Book
-
-- **URL**: `/api/books`
-- **Method**: `POST`
-- **Description**: Adds a new book to the database.
-- **Request Body**: JSON object containing details of the new book. 
-    - **Sample JSON**:
-    ```json 
-        {
-      "title": "Sample Book Title",
-      "isbn": "000000000",
-      "numPages": 300,
-      "publicationDate": "2023-05-15",
-      "authors": [
-        {
-          "id": 1
-        }
-      ],
-     "language": 
-        {
-          "id": 1
-        },
-      "publisher": 
-        {
-          "id": 1
-        }
-    
-    }
-    ```
-- **Response**:
-  - Status Code: `201 Created` if the book is successfully added.
-  - Body: JSON object containing details of the newly added book, including its unique identifier.
-
-### 4. Delete Book by ID
-
-- **URL**: `/api/books/{id}`
-- **Method**: `DELETE`
-- **Description**: Deletes a specific book by its ID from the database.
-- **Parameters**:
-  - `{id}`: ID of the book to delete.
-- **Response**:
-  - Status Code: `204 No Content` if the book is successfully deleted.
-  - Status Code: `404 Not Found` if the book with the specified ID does not exist.
-  
-### 5. Find Books by Title
-
-- **URL**: `/api/books/search/title/{title}`
-- **Method**: `GET`
-- **Description**: Retrieves a list of books based on the title.
-- **Parameters**:
-  - `{title}`: title to search for.
-- **Response**:
-  - Status Code: `200 OK` if books are found.
-  - Status Code: `404 Not Found` if no books are found for the specified title.
- - Body: JSON object containing details of the books.
-
-### 6. Find Books by Language
-
-- **URL**: `/api/books/search/language/{name}`
-- **Method**: `GET`
-- **Description**: Retrieves a list of books based on the language name.
-- **Parameters**:
-  - `{name}`: Language name to search for.
-- **Response**:
-  - Status Code: `200 OK` if books are found.
-  - Status Code: `404 Not Found` if no books are found for the specified language name.
- - Body: JSON object containing details of the books.
-
- ### 7. Find Books by Author
-
-- **URL**: `/api/books/search/author/{name}`
-- **Method**: `GET`
-- **Description**: Retrieves a list of books based on the author name.
-- **Parameters**:
-  - `{name}`: Author name to search for.
-- **Response**:
-  - Status Code: `200 OK` if books are found.
-  - Status Code: `404 Not Found` if no books are found for the specified author.
- - Body: JSON object containing details of the books.
-
-  ### 7. Find Books by Publisher
-
-- **URL**: `/api/books/search/publisher/{name}`
-- **Method**: `GET`
-- **Description**: Retrieves a list of books based on the publisher name.
-- **Parameters**:
-  - `{name}`: Publisher name to search for.
-- **Response**:
-  - Status Code: `200 OK` if books are found.
-  - Status Code: `404 Not Found` if no books are found for the specified publisher.
- - Body: JSON object containing details of the books.
-
+| #   | Action                    | URL                               | Method | Description                                       | Parameters          | Response                                                                                       |
+| --- | ------------------------- | --------------------------------- | ------ | ------------------------------------------------- | --------------------| ---------------------------------------------------------------------------------------------- |
+| 1   | Get All Books             | `/api/books`                      | GET    | Retrieves a list of all books in the database.   | None                | Status Code: `200 OK`<br>Body: JSON array containing book objects with details such as id, title, ISBN, number of pages, publication date, language, and publisher. |
+| 2   | Get Book by ID            | `/api/books/{id}`                 | GET    | Retrieves a specific book by its ID.             | `{id}`: ID of the book to retrieve. | Status Code: `200 OK`<br>Body: JSON object containing details of the requested book.<br>Status Code: `404 Not Found` if the book with the specified ID does not exist. |
+| 3   | Add New Book              | `/api/books`                      | POST   | Adds a new book to the database.                 | JSON object containing details of the new book. | Status Code: `201 Created` if the book is successfully added.<br>Body: JSON object containing details of the newly added book, including its unique identifier. |
+| 4   | Update Book              | `/api/books/{id}`                      | Put   | Update a book in the database                 | JSON object containing details of the updated book. | Status Code: `200 Created` if the book is successfully udpated.<br>Body: JSON object containing details of the newly updated book, including its unique identifier. |
+| 5   | Delete Book by ID         | `/api/books/{id}`                 | DELETE | Deletes a specific book by its ID from the database. | `{id}`: ID of the book to delete. | Status Code: `204 No Content` if the book is successfully deleted.<br>Status Code: `404 Not Found` if the book with the specified ID does not exist. |
+| 6   | Find Books by Title       | `/api/books/search/title/{title}` | GET    | Retrieves a list of books based on the title.    | `{title}`: title to search for. | Status Code: `200 OK` if books are found.<br>Status Code: `404 Not Found` if no books are found for the specified title.<br>Body: JSON object containing details of the books. |
+| 7   | Find Books by Language    | `/api/books/search/language/{name}` | GET | Retrieves a list of books based on the language name. | `{name}`: Language name to search for. | Status Code: `200 OK` if books are found.<br>Status Code: `404 Not Found` if no books are found for the specified language name.<br>Body: JSON object containing details of the books. |
+| 8   | Find Books by Author      | `/api/books/search/author/{name}` | GET    | Retrieves a list of books based on the author name. | `{name}`: Author name to search for. | Status Code: `200 OK` if books are found.<br>Status Code: `404 Not Found` if no books are found for the specified author.<br>Body: JSON object containing details of the books. |
+| 9   | Find Books by Publisher   | `/api/books/search/publisher/{name}` | GET | Retrieves a list of books based on the publisher name. | `{name}`: Publisher name to search for. | Status Code: `200 OK` if books are found.<br>Status Code: `404 Not Found` if no books are found for the specified publisher.<br>Body: JSON object containing details of the books. |
 
 ## Author Endpoints
 
-### 1. Get All Authors
+| #   | Action                    | URL                               | Method | Description                                       | Parameters          | Response                                                                                       |
+| --- | ------------------------- | --------------------------------- | ------ | ------------------------------------------------- | --------------------| ---------------------------------------------------------------------------------------------- |
+| 1   | Get All Authors           | `/api/authors`                    | GET    | Retrieves a list of all authors in the database. | None                | Status Code: `200 OK`<br>Body: JSON array containing author objects with details such as id, name, and a list of books they've written. |
+| 2   | Get Author by ID          | `/api/authors/{id}`               | GET    | Retrieves a specific author by its ID.           | `{id}`: ID of the author to retrieve. | Status Code: `200 OK`<br>Body: JSON object containing details of the requested author.<br>Status Code: `404 Not Found` if the author with the specified ID does not exist. |
+| 3   | Add New Author            | `/api/authors`                    | POST   | Adds a new author to the database.               | JSON object containing details of the new author. | Status Code: `201 Created` if the author is successfully added.<br>Body: JSON object containing details of the newly added author, including its unique identifier. |
+| 4   | Delete Author by ID       | `/api
 
-- **URL**: `/api/authors`
-- **Method**: `GET`
-- **Description**: Retrieves a list of all authors in the database.
-- **Response**:
-  - Status Code: `200 OK`
-  - Body: JSON array containing author objects with details such as id, name, and a list of books they've written.
+## Language Endpoints
 
-### 2. Get Author by ID
+| #   | Action                    | URL                               | Method | Description                                       | Parameters          | Response                                                                                       |
+| --- | ------------------------- | --------------------------------- | ------ | ------------------------------------------------- | --------------------| ---------------------------------------------------------------------------------------------- |
+| 1   | Get All Languages           | `/api/languages`                    | GET    | Retrieves a list of all languages in the database. | None                | Status Code: `200 OK`<br>Body: JSON array containing language objects with details such as id, name. |
 
-- **URL**: `/api/author/{id}`
-- **Method**: `GET`
-- **Description**: Retrieves a specific author by its ID.
-- **Parameters**:
-  - `{id}`: ID of the author to retrieve.
-- **Response**:
-  - Status Code: `200 OK`
-  - Body: JSON object containing details of the requested author.
-  - Status Code: `404 Not Found` if the author with the specified ID does not exist.
+## Publisher Endpoints
 
-### 3. Add New Author
-
-- **URL**: `/api/authors`
-- **Method**: `POST`
-- **Description**: Adds a new author to the database.
-- **Request Body**: JSON object containing details of the new author. 
-    - **Sample JSON**:
-    ```json 
-         {
-        "name": "Test Author",
-        "books": [
-            {
-            "id": 1000
-            }  
-                  ]
-          }
-    ```
-- **Response**:
-  - Status Code: `201 Created` if the author is successfully added.
-  - Body: JSON object containing details of the newly added author, including its unique identifier.
-
-
-  ### 4. Delete Author by ID
-
-- **URL**: `/api/authors/{id}`
-- **Method**: `DELETE`
-- **Description**: Deletes a specific author by its ID from the database.
-- **Parameters**:
-  - `{id}`: ID of the author to delete.
-- **Response**:
-  - Status Code: `204 No Content` if the author is successfully deleted.
-  - Status Code: `404 Not Found` if the author with the specified ID does not exist.
-  
-### 5. Find Authors by Name
-
-- **URL**: `/api/authors/search/{name}`
-- **Method**: `GET`
-- **Description**: Retrieves a list of authors based on name.
-- **Parameters**:
-  - `{name}`: Author name to search for.
-- **Response**:
-  - Status Code: `200 OK` if authors are found.
-  - Status Code: `404 Not Found` if no authors are found for the specified name.
- - Body: JSON object containing details of the authors.
-
- ### 5. Find Authors by Book
-
-- **URL**: `/api/authors/search/books/{title}`
-- **Method**: `GET`
-- **Description**: Retrieves a list of authors based on book title.
-- **Parameters**:
-  - `{title}`: Book title to search for.
-- **Response**:
-  - Status Code: `200 OK` if authors are found.
-  - Status Code: `404 Not Found` if no authors are found for the specified title.
- - Body: JSON object containing details of the authors.
+| #   | Action                    | URL                               | Method | Description                                       | Parameters          | Response                                                                                       |
+| --- | ------------------------- | --------------------------------- | ------ | ------------------------------------------------- | --------------------| ---------------------------------------------------------------------------------------------- |
+| 1   | Get All Publishers          | `/api/publishers`                    | GET    | Retrieves a list of all publishers in the database. | None                | Status Code: `200 OK`<br>Body: JSON array containing publisher objects with details such as id, name. |
