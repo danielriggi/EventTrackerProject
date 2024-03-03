@@ -1,0 +1,62 @@
+<div class="card-body">
+  <h1>Create Book</h1>
+  <form name="updateBookForm" (submit)="createBook(addBook)">
+    <div class="form-group">
+      <label for="title">Title:</label>
+      <input type="text" class="form-control" name="title" [(ngModel)]="addBook.title">
+    </div>
+    <div class="form-group">
+      <mat-label>Author Search:</mat-label>
+      <mat-form-field class="form-control">
+
+        <mat-select name="selectedAuthor" [(ngModel)]="selectedAuthor">
+          <input matInput placeholder="Search" name="authorName" [(ngModel)]="searchText">
+          <mat-option *ngFor="let author of authors | searchFilter: searchText" [value]="author">{{ author.name }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="form-group">
+      <label for="isbn">ISBN:</label>
+      <input type="text" class="form-control" name="isbn" [(ngModel)]="addBook.isbn">
+    </div>
+    <div class="form-group">
+      <label for="numPages">Number of Pages:</label>
+      <input type="number" class="form-control" name="numPages" [(ngModel)]="addBook.numPages">
+    </div>
+    <div class="form-group">
+      <label for="publicationDate">Publication Date:</label>
+      <input type="date" class="form-control" name="publicationDate" [(ngModel)]="addBook.publicationDate">
+    </div>
+
+
+
+      <div class="form-group">
+        <mat-label>Publisher Search:</mat-label>
+        <mat-form-field class="form-control">
+
+          <mat-select name="selectedPublisher" [(ngModel)]="selectedPublisher">
+            <input matInput placeholder="Search" name="publisherName" [(ngModel)]="searchText">
+            <mat-option *ngFor="let publisher of publishers | searchFilter: searchText" [value]="publisher">{{ publisher.name }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="form-group">
+        <mat-label>Language Search:</mat-label>
+        <mat-form-field class="form-control">
+
+          <mat-select name="selectedLanguage" [(ngModel)]="selectedLanguage">
+            <input matInput placeholder="Search" name="languageName" [(ngModel)]="searchText">
+            <mat-option *ngFor="let language of languages | searchFilter: searchText" [value]="language">{{ language.name }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <button class="btn btn-primary" id="updateBookButton"
+      name="updateBookButton">Create Book</button>
+  </form>
+  <div *ngIf="createSuccess" class="alert alert-success">
+    Create operation succesful.
+  </div>
+</div>

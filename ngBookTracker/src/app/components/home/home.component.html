@@ -1,0 +1,65 @@
+<div class="row">
+  <div class="col-md-3">
+    <div class="form-group">
+      <label for="titleFilter">Filter by Title:</label>
+      <input type="text" id="titleFilter" class="form-control" [(ngModel)]="filters.title">
+    </div>
+  </div>
+  <div class="col-md-2">
+    <div class="form-group">
+      <label for="authorFilter">Filter by Author:</label>
+      <input type="text" id="authorFilter" class="form-control" [(ngModel)]="filters.author">
+    </div>
+  </div>
+  <div class="col-md-2">
+    <div class="form-group">
+      <label for="languageFilter">Filter by Language:</label>
+      <input type="text" id="languageFilter" class="form-control" [(ngModel)]="filters.language">
+    </div>
+  </div>
+  <div class="col-md-1">
+    <div class="form-group">
+      <label for="minPagesFilter">Min Pages:</label>
+      <input type="number" id="numPagesFilter" class="form-control" [(ngModel)]="filters.minPages">
+    </div>
+  </div>
+  <div class="col-md-1">
+    <div class="form-group">
+      <label for="maxPagesFilter">Max Pages:</label>
+      <input type="number" id="maxPagesFilter" class="form-control" [(ngModel)]="filters.maxPages">
+    </div>
+  </div>
+  <div class="col-md-4">
+    <button class="btn btn-primary mt-4" (click)="applyFilters()">Apply Filters</button>
+  </div>
+</div>
+
+
+<table class="table table-hover table-striped-columns">
+  <thead>
+    <tr>
+      <th>ISBN</th>
+      <th>Title</th>
+      <th>Author</th>
+      <th>Language</th>
+      <th>Number of Pages</th>
+      <th>Publication Date</th>
+      <th>Publisher</th>
+      <th>Update</th>
+      <th>Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let book of filteredBooks">
+      <td> {{ book.isbn }}</td>
+      <td>{{ book.title }}</td>
+      <td> {{ book.authors[0].name }}</td>
+      <td> {{ book.language.name }}</td>
+      <td>{{ book.numPages }}</td>
+      <td>{{ book.publicationDate }}</td>
+      <td>{{ book.publisher.name }}</td>
+      <td><button class="btn btn-primary" (click)="updateBook(book.id)">Update</button></td>
+      <td><button class="btn btn-danger" (click)="deleteBook(book.id)">X</button></td>
+    </tr>
+  </tbody>
+</table>
